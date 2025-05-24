@@ -1,0 +1,134 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HAPPY MONTHSARYY!!! 
+  MMMWHAAAA</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff0f5;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #ff69b4;
+      color: white;
+      padding: 20px 0;
+      font-size: 24px;
+    }
+    nav {
+      background: #ffc0cb;
+      padding: 10px 0;
+    }
+    nav button {
+      background: #ffb6c1;
+      border: none;
+      padding: 10px 15px;
+      margin: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+    section {
+      display: none;
+      padding: 20px;
+    }
+    section.active {
+      display: block;
+    }
+    #canvas {
+      border: 2px solid #555;
+      margin-top: 10px;
+      cursor: crosshair;
+    }
+    img.gallery {
+      width: 200px;
+      margin: 10px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>Happy Monthsary, Babe 💖</header>
+
+  <nav>
+    <button onclick="showTab('date')">🗓️ Date Nights</button>
+    <button onclick="showTab('movies')">🎬 Movie List</button>
+    <button onclick="showTab('draw')">🎨 Doodle Pad</button>
+    <button onclick="showTab('photos')">📸 Photos</button>
+  </nav>
+
+  <section id="date" class="active">
+    <h2>Our Date Schedule</h2>
+    <iframe src="https://calendar.google.com/calendar/embed?src=yourcalendar" width="80%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+  </section>
+
+  <section id="movies">
+    <h2>Movies to Watch Together 🎥</h2>
+    <ul id="movieList"></ul>
+    <input type="text" id="movieInput" placeholder="Add a movie...">
+    <button onclick="addMovie()">Add</button>
+  </section>
+
+  <section id="draw">
+    <h2>DOODLE! Absolute creative freedom!</h2>
+    <canvas id="canvas" width="400" height="400"></canvas><br>
+    <button onclick="clearCanvas()">Clear</button>
+  </section>
+
+  <section id="photos">
+    <h2>US? </h2>
+    <img src="your-photo1.jpg" alt="Memory 1" class="gallery">
+    <img src="your-photo2.jpg" alt="Memory 2" class="gallery">
+    <!-- Add more photos here -->
+  </section>
+
+  <script>
+    function showTab(id) {
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    // Movie List Function
+    function addMovie() {
+      const movieInput = document.getElementById('movieInput');
+      const movieList = document.getElementById('movieList');
+      if (movieInput.value.trim() !== '') {
+        const li = document.createElement('li');
+        li.textContent = movieInput.value;
+        movieList.appendChild(li);
+        movieInput.value = '';
+      }
+    }
+
+    // Drawing pad logic
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+
+    canvas.addEventListener('mousedown', () => drawing = true);
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+      ctx.beginPath();
+    });
+    canvas.addEventListener('mousemove', draw);
+
+    function draw(e) {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#000';
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+    }
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  </script>
+</body>
+</html>
